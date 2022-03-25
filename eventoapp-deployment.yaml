@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: eventoapp
+  name: eventoapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: eventoapp
+  template:
+    metadata:
+      labels:
+        io.kompose.network/eventoapp-network: "true"
+        io.kompose.service: eventoapp
+    spec:
+      containers:
+        - env:
+            - name: EVENTOANGULAR_HOST
+              value: http://172.18.0.5:4200
+            - name: EVENTOAPP_HOST
+              value: https://172.18.0.8:8443
+            - name: EVENTOAS_HOST
+              value: https://172.18.0.6:8081
+            - name: EVENTO_CACHE_URI
+              value: http://172.18.0.9:8585
+            - name: EVENTO_WS_URI
+              value: http://172.18.0.11:9090
+            - name: VAULT_HOST
+              value: 172.18.0.2
+            - name: VAULT_ROOT_TOKEN
+              value: s.hBOgjdoVINT9E5KOPBu1OZUw
+          image: luizpovoa/eventoapp:0.0.1-SNAPSHOT
+          name: eventoapp
+          ports:
+            - containerPort: 8443
+      restartPolicy: Always

@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: eventoangular
+  name: eventoangular
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: eventoangular
+  template:
+    metadata:
+      labels:
+        io.kompose.network/eventoapp-network: "true"
+        io.kompose.service: eventoangular
+    spec:
+      containers:
+        - env:
+            - name: EVENTO_APP_URL
+              value: https://172.18.0.8:8443
+            - name: EVENTO_AS_URL
+              value: https://172.18.0.6:8081
+            - name: EVENTO_RS_URL
+              value: https://172.18.0.7:8084
+          image: luizpovoa/eventoangular:0.0.1-SNAPSHOT
+          name: eventoangular
+          ports:
+            - containerPort: 80
+      restartPolicy: Always

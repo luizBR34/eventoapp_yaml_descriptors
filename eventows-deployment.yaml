@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: eventows
+  name: eventows
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: eventows
+  template:
+    metadata:
+      labels:
+        io.kompose.network/eventoapp-network: "true"
+        io.kompose.service: eventows
+    spec:
+      containers:
+        - env:
+            - name: DATABASE_HOST
+              value: 172.18.0.4
+            - name: DATABASE_PASSWORD
+              value: hadouken83
+            - name: DATABASE_PORT
+              value: "3306"
+            - name: DATABASE_USERNAME
+              value: root
+          image: luizpovoa/eventows:0.0.1-SNAPSHOT
+          name: eventows
+          ports:
+            - containerPort: 9090
+      restartPolicy: Always
