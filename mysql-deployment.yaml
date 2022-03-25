@@ -20,9 +20,17 @@ spec:
       containers:
         - env:
             - name: MYSQL_DATABASE
-              value: eventoApp
+              #value: eventoApp
+              valueFrom:
+                configMapKeyRef:
+                  key: MYSQL_DATABASE
+                  name: todo-web-application-config
             - name: MYSQL_ROOT_PASSWORD
-              value: hadouken83
+              #value: hadouken83
+              valueFrom:
+                configMapKeyRef:
+                  key: MYSQL_ROOT_PASSWORD
+                  name: todo-web-application-config
           image: mysql:5.7
           args:
             - "--ignore-db-dir=lost+found"
