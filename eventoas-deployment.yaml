@@ -28,7 +28,10 @@ spec:
             - name: VAULT_HOST
               value: 172.18.0.2
             - name: VAULT_ROOT_TOKEN
-              value: s.hBOgjdoVINT9E5KOPBu1OZUw
+              valueFrom:
+                secretKeyRef:
+                  key: VAULT_ROOT_TOKEN
+                  name: evento-as-secrets
           image: luizpovoa/eventoas:0.0.1-SNAPSHOT
           name: eventoas
           ports:
